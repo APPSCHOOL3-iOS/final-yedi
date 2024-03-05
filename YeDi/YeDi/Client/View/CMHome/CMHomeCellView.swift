@@ -250,7 +250,7 @@ private struct CMHomeCellPostDescriptionView: View {
         }
         
         HStack {
-            Text("\(FirebaseDateFomatManager.sharedDateFommatter.changeDateString(transition: "yyyy년 MM월 dd일", from: post.timestamp))")
+            Text("\(FirebaseDateFormatManager.sharedDateFormmatter.changeDateString(transition: "yyyy년 MM월 dd일", from: post.timestamp))")
                 .font(.footnote)
                 .foregroundStyle(.gray)
             Spacer()

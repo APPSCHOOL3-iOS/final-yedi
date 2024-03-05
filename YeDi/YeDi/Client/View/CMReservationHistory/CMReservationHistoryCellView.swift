@@ -21,7 +21,7 @@ struct CMReservationHistoryCellView: View {
     @State private var review: Review?
     
     /// 싱글톤 date formatter
-    private let dateFormatter = FirebaseDateFomatManager.sharedDateFommatter
+    private let dateFormatter = FirebaseDateFormatManager.sharedDateFormmatter
     
     /// 표시할 예약 인스턴스
     let reservation: Reservation

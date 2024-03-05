@@ -106,7 +106,7 @@ final class PostDetailViewModel: ObservableObject {
     private func likePost(post: Post, clientID: String) async {
         guard let postId = post.id else { return }
         do {
-            let like = Like(clientID: clientID, postID: postId, isLiked: true, timestamp: FirebaseDateFomatManager.sharedDateFommatter.firebaseDate(from: Date()))
+            let like = Like(clientID: clientID, postID: postId, isLiked: true, timestamp: FirebaseDateFormatManager.sharedDateFormmatter.firebaseDate(from: Date()))
             try db.collection("likedPosts").addDocument(from: like)
         } catch {
             print("likePost Error: \(error)")

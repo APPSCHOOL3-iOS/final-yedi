@@ -12,7 +12,7 @@ struct BubbleCell: View {
     let isMyBubble: Bool
     
     private var chatTime: String {
-        let instance = FirebaseDateFomatManager.sharedDateFommatter
+        let instance = FirebaseDateFormatManager.sharedDateFormmatter
         let date = instance.changeDateString(transition: "MM/dd HH:mm", from: chat.date)
         return date
     }
@@ -74,7 +74,7 @@ struct BubbleCell: View {
     
     /// 채팅방  최근 메세지 날짜 표출형식 커스텀 메소드
     private func changetoDateFormat(_ messageDate: String) -> String {
-        let dateFomatter = FirebaseDateFomatManager.sharedDateFommatter.firebaseDateFormat()
+        let dateFomatter = FirebaseDateFormatManager.sharedDateFormmatter.firebaseDateFormat()
         let date = dateFomatter.date(from: messageDate) ?? Date()
         let calendar = Calendar.current
         

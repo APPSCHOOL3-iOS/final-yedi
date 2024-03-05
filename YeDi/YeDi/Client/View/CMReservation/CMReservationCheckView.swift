@@ -16,10 +16,10 @@ struct CMReservationCheckView: View {
     @State private var scale = 0.5
     let reservation: Reservation
     var stringFormattedDate: String {
-        FirebaseDateFomatManager.sharedDateFommatter.changeDateString(transition: "yyyy년 MM월 dd일 (EE)", from: reservation.reservationTime)
+        FirebaseDateFormatManager.sharedDateFormmatter.changeDateString(transition: "yyyy년 MM월 dd일 (EE)", from: reservation.reservationTime)
     }
     var stringFormattedTime: String {
-        FirebaseDateFomatManager.sharedDateFommatter.changeDateString(transition: "HH:mm", from: reservation.reservationTime)
+        FirebaseDateFormatManager.sharedDateFormmatter.changeDateString(transition: "HH:mm", from: reservation.reservationTime)
     }
     var body: some View {
         VStack(spacing: 0) {
