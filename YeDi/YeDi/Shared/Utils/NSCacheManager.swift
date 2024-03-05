@@ -8,15 +8,11 @@
 import SwiftUI
 
 final class NSCacheManager {
-    
     static var sharedNSCache: NSCacheManager = NSCacheManager()
-    
     private init() {  memoryCache.delegate = delegate }
-    
     private let delegate = CacheDelegate()
     
     let memoryCache: NSCache<NSString, UIImage> = {
-        
         let cache = NSCache<NSString, UIImage>()
         #if DEBUG
         let limitCount = 200
