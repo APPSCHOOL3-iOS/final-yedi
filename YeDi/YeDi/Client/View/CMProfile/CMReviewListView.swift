@@ -46,7 +46,7 @@ struct CMReviewCellView: View {
     /// 표시할 리뷰 인스턴스
     let review: Review
     /// 싱글톤 date formatter
-    private let dateFormatter = FirebaseDateFomatManager.sharedDateFommatter
+    private let dateFormatter = FirebaseDateFormatManager.sharedDateFormmatter
     /// 스크린 width에 따른 이미즈 크기 지정 변수
     private let imageDimension = screenWidth / 3
     
@@ -73,7 +73,7 @@ struct CMReviewCellView: View {
                         .multilineTextAlignment(.leading)
                     Spacer()
                     // MARK: - 리뷰 작성 일자
-                    Text("\(FirebaseDateFomatManager.sharedDateFommatter.changeDateString(transition: "yyyy년 MM월 dd일", from: review.date))")
+                    Text("\(FirebaseDateFormatManager.sharedDateFormmatter.changeDateString(transition: "yyyy년 MM월 dd일", from: review.date))")
                         .font(.footnote)
                         .foregroundStyle(.gray)
                 }

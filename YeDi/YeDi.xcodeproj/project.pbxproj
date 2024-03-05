@@ -46,7 +46,7 @@
 		3B517D482ACE46420082E2F6 /* ConsultationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B517D472ACE46420082E2F6 /* ConsultationViewModel.swift */; };
 		3B6346DC2AD8DDD300D3D110 /* NSCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6346DB2AD8DDD300D3D110 /* NSCacheManager.swift */; };
 		3B6346DE2AD9004600D3D110 /* ChatListUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6346DD2AD9004600D3D110 /* ChatListUserInfo.swift */; };
-		3BA51B6B2AD53212009D7902 /* FirebaseDateFomatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA51B6A2AD53212009D7902 /* FirebaseDateFomatManager.swift */; };
+		3BA51B6B2AD53212009D7902 /* FirebaseDateFormatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA51B6A2AD53212009D7902 /* FirebaseDateFormatManager.swift */; };
 		3BA862E12ADF96D500385507 /* DMShopEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA862E02ADF96D500385507 /* DMShopEditView.swift */; };
 		3BAB00EB2ACD92D6009053A4 /* DMAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB00EA2ACD92D5009053A4 /* DMAccount.swift */; };
 		3BAB00F12ACD948C009053A4 /* DMExpandableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB00F02ACD948B009053A4 /* DMExpandableText.swift */; };
@@ -192,7 +192,7 @@
 		3B517D472ACE46420082E2F6 /* ConsultationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsultationViewModel.swift; sourceTree = "<group>"; };
 		3B6346DB2AD8DDD300D3D110 /* NSCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSCacheManager.swift; sourceTree = "<group>"; };
 		3B6346DD2AD9004600D3D110 /* ChatListUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListUserInfo.swift; sourceTree = "<group>"; };
-		3BA51B6A2AD53212009D7902 /* FirebaseDateFomatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDateFomatManager.swift; sourceTree = "<group>"; };
+		3BA51B6A2AD53212009D7902 /* FirebaseDateFormatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDateFormatManager.swift; sourceTree = "<group>"; };
 		3BA862E02ADF96D500385507 /* DMShopEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMShopEditView.swift; sourceTree = "<group>"; };
 		3BAB00EA2ACD92D5009053A4 /* DMAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DMAccount.swift; sourceTree = "<group>"; };
 		3BAB00F02ACD948B009053A4 /* DMExpandableText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DMExpandableText.swift; sourceTree = "<group>"; };
@@ -744,7 +744,7 @@
 			isa = PBXGroup;
 			children = (
 				1D9067182AC151A80028A660 /* AsnycCacheImage.swift */,
-				3BA51B6A2AD53212009D7902 /* FirebaseDateFomatManager.swift */,
+				3BA51B6A2AD53212009D7902 /* FirebaseDateFormatManager.swift */,
 				3B6346DB2AD8DDD300D3D110 /* NSCacheManager.swift */,
 				DC7695B82ADCD56A00D2FB69 /* AuthRegex.swift */,
 				2F65BBA82AF9FAC500D84D37 /* WindowScene.swift */,
@@ -902,7 +902,7 @@
 				3BCF2C7C2ACD4248009C18C2 /* CMPostDetailView.swift in Sources */,
 				3BCF2C252ACD3E73009C18C2 /* ChatRoom.swift in Sources */,
 				9691C5D42ADE554300434377 /* ClosedDaySettingVM.swift in Sources */,
-				3BA51B6B2AD53212009D7902 /* FirebaseDateFomatManager.swift in Sources */,
+				3BA51B6B2AD53212009D7902 /* FirebaseDateFormatManager.swift in Sources */,
 				DC7695462AD0888800D2FB69 /* AuthHomeView.swift in Sources */,
 				3BCF2C2B2ACD3E73009C18C2 /* ChattingListRoomView.swift in Sources */,
 				639DB6812AC11B21002692E5 /* DMMainChattingView.swift in Sources */,

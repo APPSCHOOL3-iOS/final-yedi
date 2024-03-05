@@ -14,7 +14,7 @@ struct RegisterView: View {
     @Environment(\.dismiss) private var dismiss
     
     private let authRegex = AuthRegex.shared
-    private let instance = FirebaseDateFomatManager.sharedDateFommatter
+    private let instance = FirebaseDateFormatManager.sharedDateFormmatter
     
     /// 고객, 디자이너 공통 프로퍼티
     @State private var name: String = ""

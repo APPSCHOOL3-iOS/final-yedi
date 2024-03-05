@@ -42,7 +42,7 @@ final class CMReservationViewModel: ObservableObject {
             }
             
             for day in closedDay.closedDay {
-                let date = FirebaseDateFomatManager.sharedDateFommatter.changeStringToDate(dateString: day)
+                let date = FirebaseDateFormatManager.sharedDateFormmatter.changeStringToDate(dateString: day)
                 self.dates.append(date)
             }
         } catch {
@@ -70,9 +70,9 @@ final class CMReservationViewModel: ObservableObject {
     @MainActor
     func fetchAvailableReservationTime(date: Date, designerUID: String) async {
         do {
-            let startDateString = FirebaseDateFomatManager.sharedDateFommatter.firebaseDate(from: date)
+            let startDateString = FirebaseDateFormatManager.sharedDateFormmatter.firebaseDate(from: date)
             let endDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
-            let endDateString = FirebaseDateFomatManager.sharedDateFommatter.firebaseDate(from: endDate)
+            let endDateString = FirebaseDateFormatManager.sharedDateFormmatter.firebaseDate(from: endDate)
             let querySnapShot = try await db.collection("reservations").whereField("designerUID", isEqualTo: designerUID).whereField("reservationTime", isGreaterThanOrEqualTo: startDateString).whereField("reservationTime", isLessThan: endDateString).getDocuments()
             self.impossibleTime = []
             for document in querySnapShot.documents {
@@ -108,7 +108,7 @@ final class CMReservationViewModel: ObservableObject {
     }
 
     private func extractHoursFromTimeString(_ timeString: String) -> Int? {
-       let date = FirebaseDateFomatManager.sharedDateFommatter.changeStringToDate(dateString: timeString)
+       let date = FirebaseDateFormatManager.sharedDateFormmatter.changeStringToDate(dateString: timeString)
             // Calendar를 사용하여 Date에서 시간 구성 요소를 추출
             let calendar = Calendar.current
             let components = calendar.dateComponents([.hour], from: date)

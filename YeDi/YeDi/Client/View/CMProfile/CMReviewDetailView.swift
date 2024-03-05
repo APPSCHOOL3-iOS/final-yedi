@@ -13,7 +13,7 @@ struct CMReviewDetailView: View {
     @State private var displayedImageIndex: Int = 0
     
     /// 싱글톤 date formatter
-    private let dateFormatter = FirebaseDateFomatManager.sharedDateFommatter
+    private let dateFormatter = FirebaseDateFormatManager.sharedDateFormmatter
     /// 스크린 width에 따른 이미즈 크기 지정 변수
     private let imageDimension: CGFloat = screenWidth
     

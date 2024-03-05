@@ -7,8 +7,8 @@
 
 import Foundation
 
-final class FirebaseDateFomatManager {
-    static var sharedDateFommatter: FirebaseDateFomatManager = FirebaseDateFomatManager()
+final class FirebaseDateFormatManager {
+    static var sharedDateFormmatter: FirebaseDateFormatManager = FirebaseDateFormatManager()
     
     private init() {}
     
