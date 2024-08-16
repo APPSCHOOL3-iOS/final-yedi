@@ -30,7 +30,6 @@ struct CMLastReservationListView: View {
                 ScrollView {
                     ForEach(lastReservations.indices, id: \.self) { index in
                         let reservation = lastReservations[index]
-                        Text(reservation.designerUID)
                         NavigationLink {
                             CMReservationHistoryDetailView(reservation: reservation)
                         } label: {

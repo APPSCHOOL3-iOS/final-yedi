@@ -161,7 +161,7 @@ struct CMReservationHistoryDetailView: View {
             }
             
             HStack {
-                if isUpcomingReservation && reservationHistoryViewModel.review == nil {
+                if !isUpcomingReservation && reservationHistoryViewModel.review == nil {
                     NavigationLink {
                         CMNewReviewView(reservation: reservation)
                     } label: {
