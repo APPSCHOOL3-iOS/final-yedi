@@ -38,25 +38,22 @@ private struct SearchTextFieldView: View {
     }
     
     fileprivate var body: some View {
-        HStack {
-            ZStack(alignment: .trailing) {
-                TextField("디자이너를 검색해보세요.", text: $viewModel.searchText)
-                    .textFieldModifier()
-                    .onSubmit {
-                        viewModel.saveRecentSearch()
-                    }
-                
-                if !viewModel.searchText.isEmpty {
-                    Button {
-                        viewModel.searchText = ""
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.gray)
-                    }
-                    .padding(.horizontal)
+        ZStack(alignment: .trailing) {
+            TextField("디자이너를 검색해보세요.", text: $viewModel.searchText)
+                .textFieldModifier()
+                .onSubmit {
+                    viewModel.saveRecentSearch()
                 }
-            }
             
+            if !viewModel.searchText.isEmpty {
+                Button {
+                    viewModel.searchText = ""
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.gray)
+                }
+                .padding(.horizontal)
+            }
         }
         .padding()
     }
@@ -72,24 +69,24 @@ private struct SearchRecentItemView: View {
     
     fileprivate var body: some View {
         if viewModel.searchText.isEmpty {
-            VStack(alignment: .leading) {
+            if !viewModel.recentItems.isEmpty {
                 HStack {
                     Text("최근 검색")
                         .foregroundStyle(Color.primaryLabel)
                     Spacer()
-                    if !viewModel.recentItems.isEmpty {
-                        Button {
-                            viewModel.removeAllRecentItems()
-                            viewModel.recentDesigners.removeAll()
-                        } label: {
-                            Text("전체 삭제")
-                                .foregroundColor(Color.primaryLabel)
-                        }
+                    Button {
+                        viewModel.removeAllRecentItems()
+                        viewModel.recentDesigners.removeAll()
+                    } label: {
+                        Text("전체 삭제")
+                            .foregroundColor(Color.primaryLabel)
                     }
                 }
                 .padding(.horizontal)
                 .padding(.bottom)
-                
+            }
+            Divider()
+            ScrollView {
                 ForEach(viewModel.recentItems) { item in
                     HStack {
                         if item.isSearch {
@@ -105,7 +102,6 @@ private struct SearchRecentItemView: View {
                                             .overlay {
                                                 Circle().stroke(.gray, lineWidth: 1)
                                             }
-                                        
                                         Text(item.text)
                                             .padding(.leading, 5)
                                     }
@@ -145,6 +141,7 @@ private struct SearchRecentItemView: View {
                                                 .foregroundStyle(.gray)
                                         }
                                     }
+                                    .padding(.leading, 5)
                                     Spacer()
                                     Button {
                                         viewModel.removeRecentDesigner(item.designer!)
@@ -157,11 +154,9 @@ private struct SearchRecentItemView: View {
                             }
                         }
                     }
-                    .padding(.horizontal, 15)
-                    .padding(.vertical, 7)
                 }
-                Spacer()
-                    .listStyle(.plain)
+                .padding()
+                .listStyle(.plain)
             }
         }
     }
@@ -184,38 +179,37 @@ private struct SearchResultView: View {
                     Spacer()
                 }
                 .padding(.horizontal)
+                .padding(.bottom)
                 Divider()
                 ScrollView {
                     ForEach(viewModel.filterDesigners, id: \.id) { designer in
                         NavigationLink(destination: CMDesignerProfileView(designer: designer)) {
-                            VStack {
-                                HStack {
-                                    if let imageURLString = designer.imageURLString {
-                                        AsnycCacheImage(url: imageURLString)
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(maxWidth: 50, maxHeight: 50)
-                                            .clipShape(Circle())
-                                    } else {
-                                        Text(String(designer.name.first ?? " ").capitalized)
-                                            .font(.title3)
-                                            .fontWeight(.bold)
-                                            .frame(width: 50, height: 50)
-                                            .background(Circle().fill(Color.quaternarySystemFill))
-                                            .foregroundColor(Color.primaryLabel)
-                                        
-                                    }
-                                    VStack(alignment: .leading) {
-                                        Text(designer.name)
-                                            .foregroundStyle(Color.primaryLabel)
-                                        if let shop = designer.shop {
-                                            Text(shop.shopName)
-                                                .font(.subheadline)
-                                                .foregroundStyle(.gray)
-                                        }
-                                    }
-                                    .padding(.leading, 5)
-                                    Spacer()
+                            HStack {
+                                if let imageURLString = designer.imageURLString {
+                                    AsnycCacheImage(url: imageURLString)
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(maxWidth: 50, maxHeight: 50)
+                                        .clipShape(Circle())
+                                } else {
+                                    Text(String(designer.name.first ?? " ").capitalized)
+                                        .font(.title3)
+                                        .fontWeight(.bold)
+                                        .frame(width: 50, height: 50)
+                                        .background(Circle().fill(Color.quaternarySystemFill))
+                                        .foregroundColor(Color.primaryLabel)
+                                    
                                 }
+                                VStack(alignment: .leading) {
+                                    Text(designer.name)
+                                        .foregroundStyle(Color.primaryLabel)
+                                    if let shop = designer.shop {
+                                        Text(shop.shopName)
+                                            .font(.subheadline)
+                                            .foregroundStyle(.gray)
+                                    }
+                                }
+                                .padding(.leading, 5)
+                                Spacer()
                             }
                         }
                         .simultaneousGesture(

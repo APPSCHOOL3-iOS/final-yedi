@@ -50,14 +50,14 @@ class CMSearchViewModel: ObservableObject {
             }
             
             var designersWithShops: [Designer] = []
-            let dispatchGroup = DispatchGroup() // Create a DispatchGroup to use
+            let dispatchGroup = DispatchGroup()
             
             for document in documents {
                 if var designer = try? document.data(as: Designer.self) {
                     let designerID = document.documentID
                     let shopCollection = db.collection("designers").document(designerID).collection("shop")
                     
-                    dispatchGroup.enter() // Enter the DispatchGroup
+                    dispatchGroup.enter()
                     
                     shopCollection.getDocuments { (shopSnapshot, shopError) in
                         if let shopError = shopError {
@@ -70,14 +70,12 @@ class CMSearchViewModel: ObservableObject {
                         
                         designersWithShops.append(designer)
                         
-                        dispatchGroup.leave() // Leave the DispatchGroup
+                        dispatchGroup.leave()
                     }
                 }
             }
             
-            // Wait for all tasks to complete
             dispatchGroup.notify(queue: .main) {
-                // The designersWithShops array contains all designers with related shop data
                 self.designers = designersWithShops
             }
         }
@@ -94,7 +92,7 @@ class CMSearchViewModel: ObservableObject {
                     recentItems.removeLast()
                 }
                 
-                UserDefaults.standard.set(recentItems.map { $0.text }, forKey: "RecentItems")
+                UserDefaults.standard.set(recentItems.map { [$0.text: $0.isSearch] }, forKey: "RecentItems")
             }
         }
     }
@@ -103,7 +101,7 @@ class CMSearchViewModel: ObservableObject {
     func removeRecentSearch(_ search: String) {
         if let index = recentItems.firstIndex(where: { $0.isSearch && $0.text == search }) {
             recentItems.remove(at: index)
-            UserDefaults.standard.set(recentItems.map { $0.text }, forKey: "RecentItems")
+            UserDefaults.standard.set(recentItems.map { [$0.text: $0.isSearch] }, forKey: "RecentItems")
         }
     }
     
@@ -117,7 +115,7 @@ class CMSearchViewModel: ObservableObject {
                 recentItems.removeLast()
             }
             
-            UserDefaults.standard.set(recentItems.map { $0.text }, forKey: "RecentItems")
+            UserDefaults.standard.set(recentItems.map { [$0.text: $0.isSearch] }, forKey: "RecentItems")
         }
     }
     
@@ -125,22 +123,26 @@ class CMSearchViewModel: ObservableObject {
     func removeRecentDesigner(_ designer: Designer) {
         if let index = recentItems.firstIndex(where: { !$0.isSearch && $0.designer?.id == designer.id }) {
             recentItems.remove(at: index)
-            UserDefaults.standard.set(recentItems.map { $0.text }, forKey: "RecentItems")
+            UserDefaults.standard.set(recentItems.map { [$0.text: $0.isSearch] }, forKey: "RecentItems")
         }
     }
     
     // 최근 검색 내역 불러오기
     func loadRecentItems() {
-           if let loadedItems = UserDefaults.standard.array(forKey: "RecentItems") as? [String] {
-               recentItems = loadedItems.compactMap { text in
-                   if let designer = designers.first(where: { $0.name == text }) {
-                       return RecentItem(isSearch: false, text: text, designer: designer)
-                   } else {
-                       return RecentItem(isSearch: true, text: text, designer: nil)
-                   }
-               }
-           }
-       }
+        if let loadedItems = UserDefaults.standard.array(forKey: "RecentItems") as? [[String: Bool]] {
+            recentItems = loadedItems.compactMap { recentItemDict in
+                if let (key, value) = recentItemDict.first {
+                    if let designer = designers.first(where: { $0.name == key }), value == false {
+                        return RecentItem(isSearch: value, text: key, designer: designer)
+                    } else {
+                        return RecentItem(isSearch: value, text: key, designer: nil)
+                    }
+                }
+                return nil
+            }
+        }
+    }
+
     
     // 최근 검색 내역 전체 삭제
     func removeAllRecentItems() {
