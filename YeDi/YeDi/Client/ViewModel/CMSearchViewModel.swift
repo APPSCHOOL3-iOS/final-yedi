@@ -1,3 +1,10 @@
+//
+//  CMSearchViewModel.swift
+//  YeDi
+//
+//  Created by Jaehui Yu on 10/6/23.
+//
+
 import SwiftUI
 import Firebase
 import FirebaseFirestore

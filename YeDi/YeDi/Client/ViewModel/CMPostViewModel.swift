@@ -12,47 +12,69 @@ import FirebaseFirestoreSwift
 @MainActor
 class CMPostViewModel: ObservableObject {
     @Published var posts: [Post] = []
-    var lastDocument: DocumentSnapshot?
+    var lastDocumentSnapshot: DocumentSnapshot?
     let pageSize: Int = 3
+    let postCollection = Firestore.firestore().collection("posts")
+    let followingCollection = Firestore.firestore().collection("following")
     
-    let dbRef = Firestore.firestore().collection("posts")
-    
-    // 모든 게시물 불러오기 (페이지네이션)
     func fetchPosts() async {
-        var query = dbRef
+        var query = postCollection
             .order(by: "timestamp", descending: true)
-            .limit(to: pageSize)  // 한 페이지에 표시할 게시물 수
+            .limit(to: pageSize)
         
-        if let lastDocument = self.lastDocument {
-            query = query.start(afterDocument: lastDocument)
+        if let lastDocumentSnapshot = self.lastDocumentSnapshot {
+            query = query.start(afterDocument: lastDocumentSnapshot)
         }
+        
         do {
+            let querySnapshot = try await query.getDocuments()
             
-            let snapshot = try await query.getDocuments()
-            
-            if !snapshot.isEmpty {
-                self.posts.append(contentsOf: snapshot.documents.compactMap { document in
-                    try? document.data(as: Post.self)
+            if !querySnapshot.isEmpty {
+                self.posts.append(contentsOf: querySnapshot.documents.compactMap { queryDocumentSnapshot in
+                    try? queryDocumentSnapshot.data(as: Post.self) // Post 모델로 디코딩
                 })
                 
-                self.lastDocument = snapshot.documents.last
+                self.lastDocumentSnapshot = querySnapshot.documents.last
                 print("Fetched page. Total count:", self.posts.count)
             }
-            
         } catch {
             print("Error fetching posts: \(error)")
         }
     }
     
-    // 클라이언트가 팔로우한 디자이너의 ID 목록 불러오기
+    func fetchPostsForFollowedDesigners(clientID: String) async {
+        do {
+            let designerIDs = try await getFollowedDesignerIDs(forClientID: clientID)
+            
+            if let designerIDs = designerIDs, !designerIDs.isEmpty {
+                let query = postCollection.whereField("designerID", in: designerIDs)
+
+                do {
+                    let querySnapshot = try await query.getDocuments()
+                    
+                    self.posts = querySnapshot.documents.compactMap { queryDocumentSnapshot in
+                        try? queryDocumentSnapshot.data(as: Post.self) // Post 모델로 디코딩
+                    }
+                } catch {
+                    print("Error fetching posts: \(error)")
+                }
+            } else {
+                print("No followed designers found.")
+            }
+            
+        } catch {
+            print("Error fetching followed designer posts: \(error)")
+        }
+    }
+    
     func getFollowedDesignerIDs(forClientID clientID: String) async throws -> [String]? {
-        let followingCollection = Firestore.firestore().collection("following")
         let clientDocument = followingCollection.document(clientID)
         
         do {
-            let document = try await clientDocument.getDocument()
-            if document.exists {
-                if let data = document.data(), let designerIDs = data["uids"] as? [String] {
+            let documentSnapshot = try await clientDocument.getDocument()
+            
+            if documentSnapshot.exists {
+                if let data = documentSnapshot.data(), let designerIDs = data["uids"] as? [String] {
                     return designerIDs
                 } else {
                     return nil
@@ -65,31 +87,4 @@ class CMPostViewModel: ObservableObject {
             throw error
         }
     }
-    
-    // 클라이언트가 팔로우한 디자이너의 게시물만 불러오기
-    func fetchPostsForFollowedDesigners(clientID: String) async {
-        do {
-            let designerIDs = try await getFollowedDesignerIDs(forClientID: clientID)
-            if let designerIDs = designerIDs, !designerIDs.isEmpty {
-                // designerIDs 목록을 사용하여 Firestore에서 해당 디자이너의 게시물만 필터링
-                let query = Firestore.firestore().collection("posts")
-                    .whereField("designerID", in: designerIDs)
-                
-                do {
-                    let snapshot = try await query.getDocuments()
-                    self.posts = snapshot.documents.compactMap { document in
-                        try? document.data(as: Post.self)
-                    }
-                } catch {
-                    print("Error fetching posts: \(error)")
-                }
-            } else {
-                // designerIDs 목록이 비어있을 때의 처리 (팔로우한 디자이너가 없을 때)
-                print("No followed designers found.")
-            }
-        } catch {
-            // handle error from getFollowedDesignerIDs
-        }
-    }
-    
 }
